@@ -143,19 +143,19 @@ def start_cleaning(file_name=None, header_g=None):
 
         print('Output:', output)
 
-        sheet.column += pe.Sheet(name_cols)
+        new_sheet = pe.Sheet(name_cols)
 
         if header['Email'] != '':
-            sheet.column += pe.Sheet(email_cols)
+            new_sheet.column += pe.Sheet(email_cols)
 
         if header['Number'] != '':
-            sheet.column += pe.Sheet(number_cols)
-            sheet.column += pe.Sheet(number_code)
+            new_sheet.column += pe.Sheet(number_cols)
+            new_sheet.column += pe.Sheet(number_code)
 
         if header['Address'] != '':
-            sheet.column += pe.Sheet(address_cols)
-            sheet.column += pe.Sheet(city_cols)
-            sheet.column += pe.Sheet(country_cols)
+            new_sheet.column += pe.Sheet(address_cols)
+            new_sheet.column += pe.Sheet(city_cols)
+            new_sheet.column += pe.Sheet(country_cols)
 
         main_save_path = os.path.dirname(filename) + '/cleaned_' + os.path.basename(filename)
         print('Saved At: ', main_save_path)

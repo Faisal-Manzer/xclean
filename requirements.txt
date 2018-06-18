@@ -2,6 +2,7 @@ et-xmlfile==1.0.1
 jdcal==1.4
 lml==0.0.1
 openpyxl==2.5.4
+phonenumbers==8.9.8
 py3dns==3.1.0
 pyexcel==0.5.8
 pyexcel-io==0.5.7
