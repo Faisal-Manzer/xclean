@@ -26,16 +26,16 @@ def array_init(total_input):
     global number_cols, number_code
     global address_cols, city_cols, country_cols
 
-    name_cols = [['Name']] + [None] * total_input
+    name_cols = [['Name']] + [[]] * total_input
 
-    email_cols = [['Emails']] + [None] * total_input
+    email_cols = [['Emails']] + [[]] * total_input
 
-    number_cols = [['Numbers']] + [None] * total_input
-    number_code = [['Country Code']] + [None] * total_input
+    number_cols = [['Numbers']] + [[]] * total_input
+    number_code = [['Country Code']] + [[]] * total_input
 
-    address_cols = [['Address']] + [None] * total_input
-    city_cols = [['City']] + [None] * total_input
-    country_cols = [['Country']] + [None] * total_input
+    address_cols = [['Address']] + [[]] * total_input
+    city_cols = [['City']] + [[]] * total_input
+    country_cols = [['Country']] + [[]] * total_input
 
 
 def clean_sheet(start, end):
@@ -46,7 +46,7 @@ def clean_sheet(start, end):
     global address_cols, city_cols, country_cols
 
     for index in range(start, end):
-        if name_cols[index+1] is None:
+        if name_cols[index+1] == []:
             output += 1
 
             name_cols[index+1] = [dc.sanitize_name(cols[header['Name']][index])]
@@ -91,12 +91,11 @@ def clean_sheet(start, end):
 
 
 def start_thread(start, end, factor):
-
     index_length = int((end - start) / factor + 1)
     thread_array = []
     for index in range(index_length):
-        index_start = index * factor
-        index_end = (index + 1) * factor
+        index_start = index * factor + start
+        index_end = (index + 1) * factor + start
 
         if end < index_end:
             index_end = end
@@ -134,15 +133,13 @@ def start_cleaning(file_name=None, header_g=None):
 
         sheet = pe.get_sheet(file_name=filename, name_columns_by_row=0)
         cols = sheet.column
-
         total_input = len(cols[header['Name']])
         print('Total input:', total_input)
-        
+
         array_init(total_input)
         start_thread(0, total_input, 1000)
 
         print('Output:', output)
-
         new_sheet = pe.Sheet(name_cols)
 
         if header['Email'] != '':
@@ -158,8 +155,9 @@ def start_cleaning(file_name=None, header_g=None):
             new_sheet.column += pe.Sheet(country_cols)
 
         main_save_path = os.path.dirname(filename) + '/cleaned_' + os.path.basename(filename)
+        new_sheet.save_as(main_save_path)
         print('Saved At: ', main_save_path)
-        sheet.save_as(main_save_path)
+        print('Verified:', num_email_ver, 'Bounced', num_email_bounced, 'False:', num_email_error)
 
         return {
             'status': True,
