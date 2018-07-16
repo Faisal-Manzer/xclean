@@ -88,7 +88,7 @@ def clean_sheet(start, end):
                 address_cols[index+1] = [address_details['address']]
                 city_cols[index+1] = [address_details['city']]
                 country_cols[index+1] = [address_details['country']]
-
+            # print(index+1, name_cols[index+1], email_cols[index+1], number_cols[index+1], address_cols[index+1])
 
 def start_thread(start, end, factor):
     index_length = int((end - start) / factor + 1)

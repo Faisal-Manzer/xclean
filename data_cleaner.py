@@ -28,10 +28,13 @@ def sanitize_number(number_list):
                 number_details = phonenumbers.parse(number, None)
             else:
                 number_details = phonenumbers.parse(number, 'IN')
+                
+            verified_number += [number_details.national_number]
+            verified_country_code += [number_details.country_code]
 
-            if (not is_plus and len(number) == 10) or is_plus:
-                verified_number += [number_details.national_number]
-                verified_country_code += [number_details.country_code]
+            # if (not is_plus and len(number) == 10) or is_plus:
+            #     verified_number += [number_details.national_number]
+            #     verified_country_code += [number_details.country_code]
         except Exception as error:
             print('Number:', number, 'Error:', error, 'List:', number_list)
 
